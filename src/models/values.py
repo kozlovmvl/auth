@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from main import settings
 from models.exceptions import (
     UsernameValidationError,
@@ -5,7 +6,7 @@ from models.exceptions import (
     PhoneValidationError,
     PasswordValidationError,
 )
-from models.utils import make_hash
+from models.utils import make_hash, make_jwt
 
 
 class BaseField:
@@ -56,3 +57,14 @@ class Password(BaseField):
         else:
             self._validate(value)
             setattr(obj, self.field_name, make_hash(value))
+
+
+class DateExpire(BaseField):
+    def __set__(self, obj, value: str) -> None:
+        date_expire = datetime.now() + timedelta(hours=settings.TOKEN_LIFETIME)
+        setattr(obj, self.field_name, date_expire.timestamp())
+
+
+class JWT(BaseField):
+    def __set__(self, obj, value: str) -> None:
+        setattr(obj, self.field_name, make_jwt(obj.as_dict()))

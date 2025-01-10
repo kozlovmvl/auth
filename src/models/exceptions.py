@@ -12,3 +12,7 @@ class PhoneValidationError(Exception):
 
 class PasswordValidationError(Exception):
     ...
+
+
+class ObjNotFound(Exception):
+    ...

@@ -1,6 +1,7 @@
+import uuid
 import pytest
 
-from models.entities import User
+from models.entities import User, Token
 from models.exceptions import (
     UsernameValidationError,
     EmailValidationError,
@@ -29,3 +30,8 @@ def test_invalid_user():
         user.phone = "1"
     with pytest.raises(PasswordValidationError):
         user.password = "1"
+
+
+def test_token():
+    token = Token(user_id=uuid.uuid4())
+    assert token

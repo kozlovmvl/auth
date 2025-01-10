@@ -1,2 +1,6 @@
 def make_hash(string: str) -> str:
     ...
+
+
+def make_jwt(data: dict) -> str:
+    ...
